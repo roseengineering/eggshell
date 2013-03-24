@@ -1,0 +1,46 @@
+#cloud-config
+runcmd:
+
+ # automatically invoke screen with all newly created user accounts
+ - [sh, -xc, 'printf "if [ -z \"\$STY\" ]; then\nexec screen -dR\nfi\n" >> /etc/skel/.bashrc']
+
+ # setup the hadoop superuser, 'hadoop'
+ - [useradd, -m, -s, /bin/bash, hadoop]
+ - [cd, /home/hadoop]
+
+ # configure the hadoop superuser's keys
+ - [su, hadoop, -c, 'ssh-keygen -P "" -f "$HOME/.ssh/id_rsa"']
+ - [cp, -p, .ssh/id_rsa.pub, .ssh/authorized_keys]
+ - [sh, -xc, "cat /home/ubuntu/.ssh/authorized_keys >> .ssh/authorized_keys"]
+ - [sh, -xc, "echo 'ConnectTimeout 0' >> /etc/ssh/ssh_config"]
+ - [sh, -xc, "echo 'StrictHostKeyChecking no' >> /etc/ssh/ssh_config"]
+
+ # enable root login
+ - [cp, /home/ubuntu/.ssh/authorized_keys, /root/.ssh]
+ - [sed, -i, 's/disable_root: 1/disable_root: 0/', /etc/cloud/cloud.cfg]
+ - [sed, -i, 's/disable_root: true/disable_root: false/', /etc/cloud/cloud.cfg]
+
+ # upgrade software 
+ - [apt-get, -y, update]
+ - [apt-get, -y, upgrade]
+
+ # install java 6 and rhino
+ - [apt-get, -y, install, openjdk-6-jdk]
+ - [apt-get, -y, install, rhino]
+
+ # install hadoop and set java_home
+ - [wget, "http://download.nextag.com/apache/hadoop/common/hadoop-1.0.4/hadoop_1.0.4-1_x86_64.deb"]
+ - [groupadd, -r, hadoop]
+ - [dpkg, -i, hadoop_1.0.4-1_x86_64.deb]
+ - [rm, hadoop_1.0.4-1_x86_64.deb]
+ - [sed, -i, s/java-6-sun/java-6-openjdk-amd64/, /etc/hadoop/hadoop-env.sh]
+
+ # install dumbo
+ - [wget, -O, ez_setup.py, 'http://bit.ly/ezsetup']
+ - [python, ez_setup.py, -z, dumbo]
+ - [rm, ez_setup.py]
+
+ # create a dummy NFS file for starcluster
+ - [touch, /etc/exports]
+ - [halt]
+
