@@ -68,7 +68,7 @@ defined in the global JavaScript scope.
 
 In addition the 'this' object of the eggshell function is set to an
 instance of the JavaScript class Egg.  The Egg object represents a
-Hadoop MR2 Job object.  To create another Job just instantiate another
+Hadoop MR Api 2 Job object.  To create another Job just instantiate another
 Egg object.  
 
 ```javascript
@@ -92,10 +92,10 @@ this.nullOutputFormat(); // calls setOutputFormatClass(NullOutputFormat)
 this.sequenceFileOutputFormat(); // calls setOutputFormatClass(SequenceFileOutputFormat)
 
 this.name(name); // calls setJobName(name)
-this.addInput(path); // calls FileInputFormat.addInputPath()
-this.input(path); // calls FileInputFormat.setInputPaths()
-this.output(path); // calls FileOutputFormat.setOutputPath()
-this.numReduceTasks(tasks); // calls setNumReduceTasks()
+this.addInput(path); // calls FileInputFormat.addInputPath(path)
+this.input(path); // calls FileInputFormat.setInputPaths(path)
+this.output(path); // calls FileOutputFormat.setOutputPath(path)
+this.numReduceTasks(tasks); // calls setNumReduceTasks(tasks)
 this.map(o); // serializes the mapper function
 this.reduce(o); // serializes the reducer function
 this.combine(o); // serializes the combiner function
@@ -146,8 +146,8 @@ print(string); // print a string without new line to the standard output
 stderr; // returns a reference to the Java standard error print stream.
 stdout; // returns a reference to the Java standard output print stream.
 open(filename); // opens the named file
-readln(); // reads a line from the openned file
-close(); // closes an openned file
+readln(); // reads a line from the opened file
+close(); // closes an opened file
 ```
 
 Task Scope
@@ -236,5 +236,5 @@ $ hadoop jar Eggshell.jar Eggshell -libjars /usr/share/java/js.jar wordcount.js 
 The first argument is the script name.  While the remaining arguments
 are passed to the JavaScript runtime.
 
-Please see the example directory as well for sample Eggshell scripts.
+Please see the example directory for sample Eggshell scripts.
 
