@@ -226,11 +226,11 @@ Running a Eggshell Job
 Below is an sample Eggshell job:
 
 ```bash
+$ sudo apt-get install rhino
 $ hadoop fs -mkdir input
 $ wget www.usconstitution.net/const.txt
 $ hadoop fs -put const.txt input
-$ export HADOOP_CLASSPATH=/usr/share/java/js.jar
-$ hadoop jar Eggshell.jar Eggshell -libjars /usr/share/java/js.jar wordcount.js input output
+$ HADOOP_CLASSPATH="/usr/share/java/js.jar" hadoop jar Eggshell.jar Eggshell -libjars /usr/share/java/js.jar examples/wordcount.js input output
 ```
 
 The first argument is the script name.  While the remaining arguments

@@ -15,15 +15,16 @@
 # You should have received a copy of the GNU General Public License
 # along with Eggshell.  If not, see <http://www.gnu.org/licenses/>.
 
-CFLAGS=-classpath /usr/share/hadoop/hadoop-core-1.0.4.jar:/usr/lib/hadoop/client/\*:/usr/share/java/js.jar:.
+CFLAGS=-classpath "/opt/mahout/*:/usr/share/java/js.jar:."
 TARGET=Eggshell.jar
+JAVAC=/usr/lib/jvm/java-6-openjdk-amd64/bin/javac
 
 all: $(TARGET)
 
 %.jar: %.java *.java
 	rm -rf classes
 	mkdir classes
-	javac $(CFLAGS) -d classes $<
+	$(JAVAC) $(CFLAGS) -d classes $<
 	jar -cvf $@ -C classes .
 	jar -uvf $@ eggshell.js
 	jar -i $@
