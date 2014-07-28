@@ -15,7 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with Eggshell.  If not, see <http://www.gnu.org/licenses/>.
 
-CFLAGS=-classpath "/opt/mahout/*:/usr/share/java/js.jar:."
+# CFLAGS=-classpath "/opt/mahout/*:/usr/share/java/js.jar:."
+CFLAGS=-classpath "/usr/share/java/js.jar:/opt/hadoop/share/hadoop/mapreduce/*:/opt/hadoop/share/hadoop/mapreduce/lib/*:/opt/hadoop/share/hadoop/common/*:."
 TARGET=Eggshell.jar
 JAVAC=/usr/lib/jvm/java-6-openjdk-amd64/bin/javac
 
